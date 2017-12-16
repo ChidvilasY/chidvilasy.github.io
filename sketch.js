@@ -58,7 +58,7 @@ var tar;
 function setup () {
     rectMode (CENTER);
     ellipseMode (CENTER);
-    createCanvas (800, 500);
+    createCanvas (windowWidth, windowHeight);
 
     nofobjs = 6;
     tar = new p5.Vector (width / 2, height / 2);
