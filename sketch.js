@@ -11,15 +11,18 @@ class mover {
         this.maxspeed = 8;
         this.maxforce = 0.3;
     }
+
     update () {
         this.vel.add (this.acc);
         this.vel.limit (this.maxspeed);
         this.loc.add (this.vel);
         this.acc.mult (0);
     }
+
     applyforce (f) {
         this.acc.add (f);
     }
+
     arrive (target) {
         var desired =  p5.Vector.sub (target, this.loc);
         var d = desired.mag ();
@@ -34,6 +37,7 @@ class mover {
         steer.limit (this.maxforce);
         this.applyforce (steer);
     }
+
     locinit () {
         var rand = random (10);
         if (rand < 2.5) {
@@ -55,21 +59,27 @@ class mover {
 
 var objs = [];
 var tar;
+var score = 0;
+var hiscore = 0;
+
 function setup () {
     rectMode (CENTER);
     ellipseMode (CENTER);
-    createCanvas (windowWidth, windowHeight);
+    createCanvas (windowWidth, windowHeight - 5);
 
     nofobjs = 6;
     tar = new p5.Vector (width / 2, height / 2);
     for (var i = 0; i < nofobjs; i++) {
         objs[i] = new mover();
     }
+    noStroke ();
 }
 
 function draw () {
-    background (51, 128);
+    background (51, 200);
     fill (0, 0, 255);
+    tar.x = constrain (tar.x, 0, width);
+    tar.y = constrain (tar.y, 0, height);
     ellipse (tar.x, tar.y, 15, 15);
 
     for (var i = 0; i < objs.length; i++) {
@@ -84,6 +94,10 @@ function draw () {
             a = random (51, 255);
             b = random (51, 255);
             c = random (51, 255);
+            if (hiscore < score) {
+                hiscore = score;
+            }
+            score = 0;
         }
     }
 
@@ -91,7 +105,8 @@ function draw () {
         for (var j = 0; j < objs.length; j++) {
             if (i != j) {
                 var disp = p5.Vector.dist (objs[i].loc, objs[j].loc);
-                if (disp < 15) {
+                if (disp < 10) {
+                    score += 1;
                     objs[i].locinit ();
                     objs[i].locinit ();
                 }
@@ -109,4 +124,10 @@ function draw () {
     } else if (keyIsDown (DOWN_ARROW)) {
         tar.y += 10;
     }
+
+    fill (0, 150, 255);
+    textSize (20);
+    text (score, 30, 60);
+    text (hiscore, width - 60, 60);
+
 }
