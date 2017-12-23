@@ -8,8 +8,8 @@ class mover {
         this.locinit ();
         this.vel = new p5.Vector (0, 0);
         this.acc = new p5.Vector (0, 0);
-        this.maxspeed = 8;
-        this.maxforce = 0.3;
+        // this.maxspeed = 8;
+        // this.maxforce = 0.3;
     }
 
     update () {
@@ -41,14 +41,16 @@ class mover {
     locinit () {
         var rand = random (10);
         if (rand < 2.5) {
-            this.loc = new p5.Vector (-1 * offset, random (height));  // from left of window
+            this.loc = new p5.Vector (-1 * random (offset), random (height));  // from left of window
         } else if (rand < 5) {
-            this.loc = new p5.Vector (random (width), height + offset); // from bottom of windwow
+            this.loc = new p5.Vector (random (width), height + random (offset)); // from bottom of windwow
         } else if (rand < 7.5) {
-            this.loc = new p5.Vector (width + offset, random (height)); // from right of window
+            this.loc = new p5.Vector (width + random (offset), random (height)); // from right of window
         } else {
-            this.loc = new p5.Vector (random (width), -1 * offset); // from top of window
+            this.loc = new p5.Vector (random (width), -1 * random (offset)); // from top of window
         }
+        this.maxspeed = random (5, 8);
+        this.maxforce = random (0.2, 0.3);
     }
 
     display () {
@@ -108,7 +110,7 @@ function draw () {
                 if (disp < 10) {
                     score += 1;
                     objs[i].locinit ();
-                    objs[i].locinit ();
+                    objs[j].locinit ();
                 }
             }
         }
